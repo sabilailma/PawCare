@@ -1,6 +1,8 @@
 <?php include 'includes/admin_header.php'; ?>
 <?php require '../config/db.php'; ?>
 
+<link rel="stylesheet" href="assets/css/admin.css">
+
 <div class="admin-container">
 
     <h1>Kelola Hewan</h1>
@@ -24,7 +26,7 @@
 
             <img 
                 src="../assets/uploads/<?= !empty($p['image']) ? htmlspecialchars($p['image']) : 'default.jpg' ?>" 
-                class="image"
+                class="image-wrapper"
             >
 
             <div class="pet-info">

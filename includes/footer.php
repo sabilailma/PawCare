@@ -5,7 +5,7 @@
   </div>
 </footer>
 <script>
-  // small helper
+
   function markRead(id){ fetch('/pawcare/notifications.php?mark_read='+id).then(()=>location.reload()) }
 </script>
 </body>
@@ -17,7 +17,7 @@ let slideIndex = 0;
 function moveSlide(n) {
     const slider = document.getElementById("ts-slider");
     const cards = document.querySelectorAll(".testimonial-card");
-    const cardWidth = cards[0].offsetWidth + 20; // include gap
+    const cardWidth = cards[0].offsetWidth + 20; 
 
     slideIndex += n;
 

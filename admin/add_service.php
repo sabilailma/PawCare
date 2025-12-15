@@ -2,6 +2,7 @@
 include 'includes/admin_header.php';
 require '../config/db.php';
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $price = $_POST['price'];
@@ -14,12 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ");
     $stmt->execute([$name, $price, $duration, $desc]);
 
-    header("Location:admin/manage_services.php ");
+    header("Location:manage_services.php ");
     exit;
 }
 ?>
+<link rel="stylesheet" href="assets/css/admin.css">
 
-<div class="form-container">
+<div class="form-container-service">
     <h2>Tambah Layanan</h2>
 
     <form method="POST">

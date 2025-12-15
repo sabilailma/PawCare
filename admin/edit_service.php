@@ -2,25 +2,31 @@
 include 'includes/admin_header.php';
 require '../config/db.php';
 
-$id = $_GET['id'];
-$service = $pdo->prepare("SELECT * FROM services WHERE id=?");
-$service->execute([$id]);
-$s = $service->fetch();
+$id = $_GET['id'] ?? null;
+if (!$id) {
+    header("Location: manage_services.php");
+    exit;
+}
 
-if (!$s) die("Data tidak ditemukan");
+$stmt = $pdo->prepare("SELECT * FROM services WHERE id = ?");
+$stmt->execute([$id]);
+$s = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$s) {
+    die("Data tidak ditemukan");
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare("
-        UPDATE services 
-        SET name=?, category=?, price=?, description=?, status=?
-        WHERE id=?
+        UPDATE services
+        SET name = ?, price = ?, duration_minutes = ?, description = ?
+        WHERE id = ?
     ");
     $stmt->execute([
         $_POST['name'],
-        $_POST['category'],
         $_POST['price'],
+        $_POST['duration_minutes'],
         $_POST['description'],
-        $_POST['status'],
         $id
     ]);
 
@@ -29,30 +35,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<div class="admin-container">
+<link rel="stylesheet" href="assets/css/admin.css">
+<div class="admin-content">
+  <div class="admin-container-edit">
     <h1>Edit Layanan</h1>
 
     <form method="POST" class="form-card">
         <label>Nama</label>
-        <input class="input" name="name" value="<?= htmlspecialchars($s['name']) ?>">
-
-        <label>Kategori</label>
-        <input class="input" name="category" value="<?= htmlspecialchars($s['category']) ?>">
+        <input class="input" name="name"
+               value="<?= htmlspecialchars($s['name'] ?? '') ?>" required>
 
         <label>Harga</label>
-        <input class="input" type="number" name="price" value="<?= $s['price'] ?>">
+        <input class="input" type="number" step="0.01" name="price"
+               value="<?= htmlspecialchars($s['price'] ?? '') ?>" required>
 
-        <label>Status</label>
-        <select class="input" name="status">
-            <option value="active" <?= $s['status']=='active'?'selected':'' ?>>Active</option>
-            <option value="inactive" <?= $s['status']=='inactive'?'selected':'' ?>>Inactive</option>
-        </select>
+        <label>Durasi (menit)</label>
+        <input class="input" type="number" name="duration_minutes"
+               value="<?= htmlspecialchars($s['duration_minutes'] ?? '') ?>" required>
 
         <label>Deskripsi</label>
-        <textarea class="input" name="description"><?= htmlspecialchars($s['description']) ?></textarea>
+        <textarea class="input" name="description"><?= htmlspecialchars($s['description'] ?? '') ?></textarea>
 
         <button class="btn-primary">Update</button>
     </form>
+    </div>
 </div>
 
 <?php include 'includes/admin_footer.php'; ?>

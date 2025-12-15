@@ -5,6 +5,8 @@ require '../config/db.php';
 $services = $pdo->query("SELECT * FROM services ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
+<link rel="stylesheet" href="assets/css/admin.css">
+
 <div class="admin-container">
 
     <h1>Kelola Layanan</h1>

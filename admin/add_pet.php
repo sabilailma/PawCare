@@ -1,5 +1,7 @@
 <?php
-session_start();
+include 'includes/admin_header.php';
+require '../config/db.php';
+
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/functions.php';
 
@@ -54,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <?php include 'includes/admin_header.php'; ?>
-
+<link rel="stylesheet" href="assets/css/admin.css">
 <div class="form-container">
     <h2>Add New Pet</h2>
 

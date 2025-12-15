@@ -1,7 +1,11 @@
 <?php
 // includes/functions.php
-if (session_status() !== PHP_SESSION_ACTIVE) session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once __DIR__ . '/../config/db.php';
+
 
 function is_logged() { return isset($_SESSION['user_id']); }
 function is_admin() { return isset($_SESSION['role']) && $_SESSION['role'] === 'admin'; }
