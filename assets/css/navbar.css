@@ -1,0 +1,124 @@
+/* ===== NAVBAR BASE ===== */
+.navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    background: linear-gradient(90deg, #f5d9f5, #c7eae8);
+    padding: 15px 0;
+    z-index: 999;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ===== LOGO ===== */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 700;
+    margin-left: -120px;
+    color: #333;
+}
+
+.nav-logo img {
+    height: 50px;          /* Atur ukuran logo (boleh diganti) */
+    width: auto;
+    display: block;
+}
+
+.nav-logo span {
+    line-height: 1;        /* Biar teks sejajar bener */
+    display: flex;
+    align-items: center;   /* Pastikan tidak turun */
+}
+
+/* ===== MENU ===== */
+.nav-menu {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+}
+
+.nav-menu li a {
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
+}
+
+.nav-menu li a:hover {
+    color: #1e6f6e;
+}
+
+/* ===== BUTTONS ===== */
+.btn-login {
+    padding: 8px 18px;
+    background: #033f4c;
+    color: #fff !important;
+    border-radius: 8px;
+}
+
+.btn-register {
+    padding: 8px 18px;
+    border: 2px solid #033f4c;
+    color: #033f4c !important;
+    border-radius: 8px;
+}
+
+/* ===== MOBILE TOGGLE ===== */
+.nav-toggle {
+    display: none;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+
+    .nav-menu {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        padding: 20px 25px;
+        background: white;
+        display: none;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .nav-buttons {
+        display: none;
+    }
+
+    .nav-toggle {
+        display: block;
+    }
+
+    .mobile-only {
+        display: block;
+    }
+}
+
+.mobile-only {
+    display: none;
+}
