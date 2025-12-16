@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 require_once __DIR__ . '/../includes/db.php';
 
-$id = $_GET['id'];
+$id = intval($_GET['id'] ?? 0);
 $stmt = $pdo->prepare("SELECT * FROM service_reviews WHERE id = ?");
 $stmt->execute([$id]);
 $review = $stmt->fetch();
@@ -25,7 +25,7 @@ require_once __DIR__ . '/../includes/header.php';
 <p><strong>Review:</strong> <?= htmlspecialchars($review['review_text']) ?></p>
 
 <?php if ($review['photo']): ?>
-    <p><img src="../uploads/<?= $review['photo'] ?>" width="150"></p>
+    <p><img src="../uploads/<?= htmlspecialchars($review['photo']) ?>" width="150"></p>
 <?php endif; ?>
 
 <form action="review_reply_process.php" method="post">

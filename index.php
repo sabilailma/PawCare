@@ -43,25 +43,42 @@ $reviews = $pdo->query("
 <div class="cards">
 <?php foreach($pets as $p): ?>
   <div class="card">
+
     <img 
-  src="/pawcare/uploads/<?= htmlspecialchars($p['image']) ?>" 
+  src="/pawcare/assets/uploads/<?= htmlspecialchars($p['image']) ?>"
   alt="<?= htmlspecialchars($p['name']) ?>"
+  style="height:180px; width:100%; object-fit:cover; border-radius:12px;"
 >
-    <h3><?= htmlspecialchars($p['name']) ?> <span class="small">(<?= htmlspecialchars($p['type']) ?>)</span></h3>
-    <p class="small">Age: <?= htmlspecialchars($p['age']) ?> • Health: <?= htmlspecialchars($p['health_status']) ?></p>
-    <p class="small"><?= htmlspecialchars(substr($p['description'],0,120)) ?>... 💛</p>
-    
+
+
+    <h3>
+      <?= htmlspecialchars($p['name']) ?>
+      <span class="small">(<?= htmlspecialchars($p['type']) ?>)</span>
+    </h3>
+
+    <p class="small">
+      Age: <?= htmlspecialchars($p['age']) ?> • 
+      Health: <?= htmlspecialchars($p['health_status']) ?>
+    </p>
+
+    <p class="small">
+      <?= htmlspecialchars(substr($p['description'],0,120)) ?>...
+    </p>
+
     <div class="card-actions">
-      <a class="btn-primary" href="detail_pet.php<?= $p['id'] ?>">Detail</a>
+      <a class="btn-primary" href="detail_pet.php?id=<?= $p['id'] ?>">Detail</a>
+
       <?php if(is_logged()): ?>
         <a class="btn" href="adoption.php?pet_id=<?= $p['id'] ?>">Ajukan Adopsi</a>
       <?php else: ?>
         <a class="btn" href="login.php">Login</a>
       <?php endif; ?>
     </div>
+
   </div>
 <?php endforeach; ?>
 </div>
+
 
 <!-- SERVICES SECTION -->
 <div class="section-title" style="margin-top:34px">

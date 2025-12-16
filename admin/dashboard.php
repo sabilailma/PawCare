@@ -1,33 +1,75 @@
-<?php include 'includes/admin_header.php'; ?>
-<?php require_once '../config/db.php'; ?>
+<?php
+include 'includes/admin_header.php';
+require_once '../config/db.php';
+?>
 
 <link rel="stylesheet" href="assets/css/admin.css">
 
+<?php
+/* =========================
+   DATA DASHBOARD
+========================= */
+
+// booking
+$totalBookings     = $pdo->query("SELECT COUNT(*) FROM bookings")->fetchColumn();
+$pendingBookings   = $pdo->query("SELECT COUNT(*) FROM bookings WHERE status='pending'")->fetchColumn();
+$confirmedBookings = $pdo->query("SELECT COUNT(*) FROM bookings WHERE status='confirmed'")->fetchColumn();
+$completedBookings = $pdo->query("SELECT COUNT(*) FROM bookings WHERE status='completed'")->fetchColumn();
+
+// lama (tetap dipakai chart)
+$totalPets      = $pdo->query("SELECT COUNT(*) FROM pets")->fetchColumn();
+$totalUsers     = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
+$totalServices  = $pdo->query("SELECT COUNT(*) FROM services")->fetchColumn();
+$totalReviews   = $pdo->query("SELECT COUNT(*) FROM service_reviews")->fetchColumn();
+
+$totalPendingAdoptions = $pdo->query("
+    SELECT COUNT(*) 
+    FROM adoption_requests 
+    WHERE status='pending'
+")->fetchColumn();
+
+
+$petData = $pdo->query("
+    SELECT type, COUNT(*) AS total
+    FROM pets
+    GROUP BY type
+")->fetchAll(PDO::FETCH_ASSOC);
+
+$avgRating = $pdo->query("
+    SELECT ROUND(AVG(rating),1)
+    FROM service_reviews
+")->fetchColumn() ?? 0;
+?>
+
 <div class="admin-container">
 
-    <h1>Dashboard Analytics</h1>
-    <p class="welcome">Analisis aktivitas PawCare secara lengkap.</p>
+    <h1>Dashboard PawCare</h1>
+    <p class="welcome">Ringkasan aktivitas PawCare.</p>
 
-    <?php
-    $totalPets    = $pdo->query("SELECT COUNT(*) FROM pets")->fetchColumn();
-    $totalUsers   = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
-    $totalServices = $pdo->query("SELECT COUNT(*) FROM services")->fetchColumn();
-    $totalReviews = $pdo->query("SELECT COUNT(*) FROM service_reviews")->fetchColumn();
-
-    $petData = $pdo->query("
-        SELECT type, COUNT(*) AS total
-        FROM pets
-        GROUP BY type
-    ")->fetchAll(PDO::FETCH_ASSOC);
-
-    $avgRating = $pdo->query("
-        SELECT ROUND(AVG(rating),1)
-        FROM service_reviews
-    ")->fetchColumn() ?? 0;
-    ?>
-
-    <!-- Stats Cards -->
+    <!-- =========================
+         STAT CARDS
+    ========================= -->
     <div class="stats-grid">
+
+        <!-- BOOKING (SATU KOTAK) -->
+        <div class="stats-card booking-card">
+            <div class="stats-title">Booking</div>
+            <div class="stats-value"><?= $totalBookings ?></div>
+
+            <div class="booking-status">
+                <span class="pending">Pending: <?= $pendingBookings ?></span>
+                <span class="confirmed">Confirmed: <?= $confirmedBookings ?></span>
+                <span class="completed">Completed: <?= $completedBookings ?></span>
+            </div>
+        </div>
+
+        <a href="adoptions.php?status=pending" style="text-decoration:none">
+             <div class="stats-card">
+                <div class="stats-title">Pending Adopsi</div>
+                <div class="stats-value"><?= $totalPendingAdoptions ?></div>
+             </div>
+        </a>
+
 
         <div class="stats-card">
             <div class="stats-title">Total Hewan</div>
@@ -35,7 +77,7 @@
         </div>
 
         <div class="stats-card">
-             <div class="stats-title">Total Layanan</div>
+            <div class="stats-title">Total Layanan</div>
             <div class="stats-value"><?= $totalServices ?></div>
         </div>
 
@@ -56,7 +98,9 @@
 
     </div>
 
-    <!-- Charts -->
+    <!-- =========================
+         CHART (LAMA – TETAP)
+    ========================= -->
     <div class="chart-grid">
 
         <div class="chart-card">
@@ -86,8 +130,6 @@ new Chart(document.getElementById('petChart'), {
             label: 'Total Hewan',
             data: petValues,
             backgroundColor: '#36d1dc',
-            borderColor: '#5b86e5',
-            borderWidth: 1,
             borderRadius: 8
         }]
     }
@@ -105,6 +147,4 @@ new Chart(document.getElementById('reviewChart'), {
 });
 </script>
 
-
-
-<?php include 'includes/admin_footer.php'; ?>;''
+<?php include 'includes/admin_footer.php'; ?>

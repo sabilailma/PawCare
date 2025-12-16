@@ -53,3 +53,4 @@ function render_stars($rating) {
 
     return $html;
 }
+

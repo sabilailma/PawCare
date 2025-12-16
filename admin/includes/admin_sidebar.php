@@ -6,6 +6,8 @@
     <a href="add_pet.php">Tambah Hewan</a>
     <a href="manage_services.php">Kelola Layanan</a>
     <a href="review_list.php">Review Pengguna</a>
+    <a href="bookings.php">Booking Layanan</a>
+
 
     <a href="../logout.php" class="logout">Logout</a>
 </div>
